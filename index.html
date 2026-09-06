@@ -9,7 +9,8 @@
   <meta name="apple-mobile-web-app-title" content="צדקה תשפ״ז" />
   <title>צדקה תשפ״ז · יעד 10,000 ₪</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -60,82 +61,117 @@
     }
     .progress-hero { text-align: center; }
 
+    .install-bar {
+      position: fixed;
+      z-index: 30;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+      display: none;
+      justify-content: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .install-bar.show { display: flex; }
+    .install-bar button {
+      pointer-events: auto;
+      font-family: Rubik, sans-serif;
+      background: var(--navy);
+      color: #f6edd6;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(26,39,68,.28);
+    }
+    .install-bar button.shareish {
+      background: #fffdf8;
+      color: var(--navy);
+      border: 1px solid var(--gold-line);
+    }
+
     .pushke-stage {
       position: relative;
-      width: 230px;
-      height: 300px;
-      margin: 4px auto 8px;
+      width: min(340px, 92vw);
+      height: 430px;
+      margin: 8px auto 12px;
     }
-    .coin-fly {
+    .coins-layer {
       position: absolute;
-      top: -8px;
-      left: 50%;
-      width: 22px;
-      height: 22px;
-      margin-left: -11px;
+      inset: 0;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 6;
+    }
+    .fly-coin {
+      position: absolute;
+      top: 8px;
+      width: 28px;
+      height: 28px;
+      margin-left: -14px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 30%, #ffe9a8, #d4a017 55%, #8a6a12);
       box-shadow: inset 0 0 0 2px rgba(120,80,10,.35);
       opacity: 0;
-      pointer-events: none;
-      z-index: 5;
-    }
-    .coin-fly.go {
-      animation: dropCoin .7s ease-in forwards;
     }
     @keyframes dropCoin {
-      0% { transform: translateY(-30px) scale(1); opacity: 1; }
-      70% { transform: translateY(18px) scale(.85); opacity: 1; }
-      100% { transform: translateY(28px) scale(.4); opacity: 0; }
+      0% { transform: translate(var(--sx), -40px) scale(1) rotate(0deg); opacity: 1; }
+      75% { transform: translate(calc(var(--sx) * .3), 78px) scale(.9) rotate(180deg); opacity: 1; }
+      100% { transform: translate(0px, 118px) scale(.45) rotate(260deg); opacity: 0; }
     }
 
-    .pushke { position: relative; width: 200px; height: 280px; margin: 10px auto 0; }
+    .pushke { position: relative; width: 280px; height: 400px; margin: 18px auto 0; }
     .lid {
       position: absolute;
-      top: 8px; left: 18px; right: 18px;
-      height: 36px;
-      background: linear-gradient(180deg, #3a4d73, #1a2744);
-      border: 2px solid #c9a44a;
+      top: 16px; left: 22px; right: 22px;
+      height: 48px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.08), transparent 30%, transparent 70%, rgba(0,0,0,.25)),
+        linear-gradient(180deg, #8a5a32, #5c3a1e 55%, #3d2414);
+      border: 3px solid #c9a44a;
       border-bottom: 0;
-      border-radius: 10px 10px 2px 2px;
+      border-radius: 14px 14px 3px 3px;
       z-index: 3;
-      box-shadow: 0 4px 0 #0f1728;
+      box-shadow: 0 6px 0 #2a1810;
     }
     .lid::before {
       content: "";
       position: absolute;
-      top: -10px; left: 10px; right: 10px;
-      height: 14px;
-      background: linear-gradient(180deg, #4a5f88, #243456);
-      border: 2px solid #c9a44a;
-      border-radius: 8px 8px 2px 2px;
+      top: -14px; left: 16px; right: 16px;
+      height: 18px;
+      background: linear-gradient(180deg, #a56b3a, #6b4224);
+      border: 3px solid #c9a44a;
+      border-radius: 10px 10px 2px 2px;
     }
     .slot {
       position: absolute;
-      top: 14px; left: 50%;
-      width: 72px; height: 8px;
-      margin-left: -36px;
-      background: #0b1020;
-      border-radius: 4px;
-      box-shadow: inset 0 2px 3px #000, 0 0 0 2px #c9a44a;
+      top: 18px; left: 50%;
+      width: 96px; height: 10px;
+      margin-left: -48px;
+      background: #1a1008;
+      border-radius: 5px;
+      box-shadow: inset 0 3px 4px #000, 0 0 0 2px #c9a44a;
       z-index: 4;
     }
     .body {
       position: absolute;
-      top: 40px; left: 10px; right: 10px; bottom: 18px;
+      top: 58px; left: 8px; right: 8px; bottom: 22px;
       background:
-        linear-gradient(90deg, rgba(255,255,255,.06), transparent 18%, transparent 82%, rgba(0,0,0,.18)),
-        linear-gradient(180deg, #2a3b5c, #152036 70%, #10182a);
-      border: 3px solid #c9a44a;
-      border-radius: 8px 8px 14px 14px;
-      box-shadow: 0 12px 24px rgba(26,39,68,.25), inset 0 0 0 1px rgba(255,220,140,.2);
+        repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 2px, transparent 2px 11px),
+        linear-gradient(90deg, rgba(255,230,190,.12), transparent 18%, transparent 82%, rgba(0,0,0,.28)),
+        linear-gradient(180deg, #7a4a28, #5a3218 55%, #3a2010);
+      border: 4px solid #c9a44a;
+      border-radius: 10px 10px 18px 18px;
+      box-shadow: 0 16px 28px rgba(40,20,8,.28), inset 0 0 0 1px rgba(255,220,140,.25);
       overflow: hidden;
     }
     .window {
       position: absolute;
-      top: 18px; left: 22px; right: 22px; bottom: 58px;
-      background: #0c1220;
-      border: 2px solid #8a7340;
+      top: 22px; left: 28px; right: 28px; bottom: 72px;
+      background: #1a1008;
+      border: 3px solid #8a7340;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: inset 0 0 16px rgba(0,0,0,.65);
@@ -167,13 +203,13 @@
     }
     .plaque {
       position: absolute;
-      bottom: 14px; left: 18px; right: 18px;
-      height: 34px;
+      bottom: 18px; left: 24px; right: 24px;
+      height: 42px;
       background: linear-gradient(180deg, #e8c86a, #b8953d);
       border-radius: 6px;
       color: #1a2744;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 24px;
       letter-spacing: 0.2em;
       display: flex; align-items: center; justify-content: center;
       box-shadow: inset 0 1px 0 #ffe9a8, 0 2px 0 #7a5d1c;
@@ -298,7 +334,7 @@
     .empty { text-align: center; color: var(--muted); padding: 12px 0 4px; }
 
     .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      position: fixed; bottom: 86px; left: 50%; transform: translateX(-50%);
       background: var(--navy); color: #f6edd6;
       padding: 10px 16px; border-radius: 999px;
       font-family: Rubik, sans-serif; font-size: 14px;
@@ -342,7 +378,7 @@
   <div class="wrap">
     <section class="card progress-hero">
       <div class="pushke-stage">
-        <div class="coin-fly" id="coinFly"></div>
+        <div class="coins-layer" id="coinsLayer"></div>
         <div class="pushke" id="pushke">
           <div class="lid"><div class="slot"></div></div>
           <div class="body">
@@ -440,6 +476,10 @@
     </footer>
   </div>
 
+  <div class="install-bar" id="installBar">
+    <button type="button" id="installBtn">↓  התקנת האפליקציה</button>
+    <button type="button" class="shareish" id="shareBtn">שיתוף</button>
+  </div>
   <div class="toast" id="toast"></div>
 
   <dialog id="editDialog">
@@ -501,8 +541,22 @@
     function saveLocal() {
       localStorage.setItem(LOCAL_KEY, JSON.stringify({ goal: GOAL, year: "5787", donations: state.donations }));
     }
+    function asciiOnly(s) {
+      return String(s || "").replace(/[^\x20-\x7E]/g, "").trim();
+    }
+    function cleanToken(s) {
+      return asciiOnly(s).replace(/^Bearer\s+/i, "").replace(/\s+/g, "");
+    }
     function loadCfg() {
-      try { return JSON.parse(localStorage.getItem(GH_KEY) || "{}"); } catch { return {}; }
+      try {
+        const c = JSON.parse(localStorage.getItem(GH_KEY) || "{}");
+        return {
+          owner: asciiOnly(c.owner),
+          repo: asciiOnly(c.repo),
+          branch: asciiOnly(c.branch) || "main",
+          token: cleanToken(c.token)
+        };
+      } catch { return {}; }
     }
     function saveCfg() {
       localStorage.setItem(GH_KEY, JSON.stringify(cfg));
@@ -515,10 +569,10 @@
     }
     function readCfgForm() {
       cfg = {
-        owner: $("ghOwner").value.trim(),
-        repo: $("ghRepo").value.trim(),
-        branch: $("ghBranch").value.trim() || "main",
-        token: $("ghToken").value.trim()
+        owner: asciiOnly($("ghOwner").value),
+        repo: asciiOnly($("ghRepo").value),
+        branch: asciiOnly($("ghBranch").value) || "main",
+        token: cleanToken($("ghToken").value)
       };
     }
     function payload() {
@@ -572,11 +626,46 @@
       return decodeURIComponent(escape(atob(b64)));
     }
 
-    function dropCoin() {
-      const c = $("coinFly");
-      c.classList.remove("go");
-      void c.offsetWidth;
-      c.classList.add("go");
+    let audioCtx;
+    function soundOn() {
+      try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+      } catch (e) {}
+      return audioCtx;
+    }
+    function clink(when) {
+      const ctx = soundOn();
+      if (!ctx) return;
+      const t0 = ctx.currentTime + (when || 0);
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "triangle";
+      o.frequency.setValueAtTime(880 + Math.random() * 220, t0);
+      o.frequency.exponentialRampToValueAtTime(420, t0 + 0.12);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.18, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.16);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t0); o.stop(t0 + 0.18);
+    }
+    function dropCoins(amount) {
+      const n = Math.max(1, Math.min(16, Math.round(Number(amount) / 36) || 1));
+      const layer = $("coinsLayer");
+      if (!layer) return;
+      soundOn();
+      for (let i = 0; i < n; i++) {
+        const c = document.createElement("div");
+        c.className = "fly-coin";
+        const sx = (Math.random() * 70 - 35).toFixed(1) + "px";
+        c.style.left = "50%";
+        c.style.setProperty("--sx", sx);
+        c.style.animation = "dropCoin " + (0.55 + Math.random() * 0.25) + "s ease-in forwards";
+        c.style.animationDelay = (i * 0.09) + "s";
+        layer.appendChild(c);
+        setTimeout(() => clink(0), 80 + i * 90);
+        setTimeout(() => c.remove(), 1400 + i * 90);
+      }
     }
 
     function render() {
@@ -645,7 +734,7 @@
       const res = await fetch(API + path, {
         method: opts.method || "GET",
         headers: {
-          "Authorization": "Bearer " + cfg.token,
+          "Authorization": "Bearer " + cleanToken(cfg.token),
           "Accept": "application/vnd.github+json",
           ...(opts.body ? { "Content-Type": "application/json" } : {})
         },
@@ -699,7 +788,7 @@
       }
       setSync("שומר לגיטהב…", "busy");
       const body = {
-        message: message || "עדכון תרומות תשפ״ז",
+        message: message || "update tzedakah 5787",
         content: enc(JSON.stringify(payload(), null, 2)),
         branch: cfg.branch
       };
@@ -722,7 +811,7 @@
     async function persist(message, animateCoin) {
       saveLocal();
       render();
-      if (animateCoin) dropCoin();
+      if (animateCoin) dropCoins(animateCoin === true ? 36 : animateCoin);
       try {
         const ok = await pushToGitHub(message);
         if (ok) toast("נשמר בגיטהב");
@@ -751,7 +840,7 @@
       $("form").reset();
       $("date").value = todayISO();
       try {
-        await persist("תרומה " + amount + " ₪", true);
+        await persist("donation " + amount + " ILS", amount);
       } finally {
         saving = false;
         $("saveBtn").disabled = false;
@@ -781,14 +870,14 @@
       d.to = $("editTo").value.trim();
       d.note = $("editNote").value.trim();
       $("editDialog").close();
-      await persist("עריכת תרומה");
+      await persist("edit donation");
     });
     $("deleteEdit").addEventListener("click", async () => {
       const id = $("editId").value;
       if (!confirm("למחוק את התרומה הזו?")) return;
       state.donations = state.donations.filter((x) => x.id !== id);
       $("editDialog").close();
-      await persist("מחיקת תרומה");
+      await persist("delete donation");
     });
 
     $("connectBtn").addEventListener("click", async () => {
@@ -839,7 +928,7 @@
           note: d.note || "",
           createdAt: d.createdAt || Date.now()
         })).filter((d) => d.amount > 0);
-        await persist("ייבוא גיבוי");
+        await persist("import backup");
       } catch {
         alert("לא הצלחתי לקרוא את קובץ הגיבוי.");
       }
@@ -848,9 +937,37 @@
     $("resetBtn").addEventListener("click", async () => {
       if (!confirm("למחוק את הרשימה במכשיר ואז לשמור קופה ריקה לגיטהב?")) return;
       state.donations = [];
-      await persist("איפוס יומן תרומות");
+      await persist("reset donations");
     });
 
+
+    let deferredPrompt = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      $("installBar").classList.add("show");
+    });
+    function isStandalone() {
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+    }
+    if (!isStandalone()) $("installBar").classList.add("show");
+    $("installBtn").addEventListener("click", async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      } else {
+        alert("בכרום: תפריט שלוש נקודות למעלה → הוספה למסך הבית / התקנת האפליקציה");
+      }
+    });
+    $("shareBtn").addEventListener("click", async () => {
+      const url = location.href.split("#")[0];
+      if (navigator.share) {
+        try { await navigator.share({ title: "צדקה תשפ״ז", url: url }); } catch (e) {}
+      } else {
+        try { await navigator.clipboard.writeText(url); toast("הכתובת הועתקה"); } catch (e) { alert(url); }
+      }
+    });
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }

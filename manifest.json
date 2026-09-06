@@ -1,18 +1,17 @@
 {
+  "id": "./tzedakah-5787",
   "name": "צדקה תשפ״ז",
   "short_name": "צדקה תשפ״ז",
+  "description": "מעקב יעד צדקה 10,000 שח לשנת תשפ״ז",
   "dir": "rtl",
   "lang": "he",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f7f1e6",
   "theme_color": "#1a2744",
   "icons": [
-    {
-      "src": "favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
