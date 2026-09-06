@@ -1,15 +1,6 @@
 {
   "goal": 10000,
   "year": "5787",
-  "updatedAt": "2026-09-06T14:20:36.309Z",
-  "donations": [
-    {
-      "id": "mtpwewal3ka55",
-      "amount": 10000,
-      "date": "2026-09-06",
-      "to": "",
-      "note": "",
-      "createdAt": 1788704395005
-    }
-  ]
+  "updatedAt": "2026-09-06T14:20:39.007Z",
+  "donations": []
 }
