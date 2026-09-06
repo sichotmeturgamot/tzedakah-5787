@@ -1,7 +1,7 @@
 {
   "goal": 10000,
   "year": "5787",
-  "updatedAt": "2026-09-06T14:19:48.435Z",
+  "updatedAt": "2026-09-06T14:19:51.306Z",
   "donations": [
     {
       "id": "mtpwebsvd4fkv",
@@ -26,6 +26,14 @@
       "to": "",
       "note": "",
       "createdAt": 1788704388432
+    },
+    {
+      "id": "mtpwetfqb5tud",
+      "amount": 100,
+      "date": "2026-09-06",
+      "to": "",
+      "note": "",
+      "createdAt": 1788704391302
     }
   ]
 }
