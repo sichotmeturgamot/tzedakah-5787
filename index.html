@@ -62,19 +62,14 @@
     .progress-hero { text-align: center; }
 
     .install-bar {
-      position: fixed;
+      position: static;
       z-index: 30;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
-      max-width: 720px;
-      margin: 0 auto;
-      display: none;
+      display: flex;
       justify-content: center;
       gap: 8px;
-      pointer-events: none;
+      margin: 14px 0 0;
+      flex-wrap: wrap;
     }
-    .install-bar.show { display: flex; }
     .install-bar button {
       pointer-events: auto;
       font-family: Rubik, sans-serif;
@@ -396,6 +391,10 @@
       </div>
       <div class="pace" id="pace"></div>
       <div class="sync-status" id="syncStatus">עדיין לא מחובר לגיטהב</div>
+      <div class="install-bar" id="installBar">
+        <button type="button" id="installBtn">↓  התקנת האפליקציה</button>
+        <button type="button" class="shareish" id="shareBtn">שיתוף</button>
+      </div>
     </section>
 
     <section class="card">
@@ -476,10 +475,6 @@
     </footer>
   </div>
 
-  <div class="install-bar" id="installBar">
-    <button type="button" id="installBtn">↓  התקנת האפליקציה</button>
-    <button type="button" class="shareish" id="shareBtn">שיתוף</button>
-  </div>
   <div class="toast" id="toast"></div>
 
   <dialog id="editDialog">
