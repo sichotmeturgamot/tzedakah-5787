@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a2744" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="צדקה תשפ״ז" />
+  <title>צדקה תשפ״ז · יעד 10,000 ₪</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1a2744;
+      --navy-2: #243456;
+      --cream: #f7f1e6;
+      --paper: #fffdf8;
+      --gold: #b8953d;
+      --gold-soft: #e8d7a8;
+      --gold-line: #d4c09a;
+      --ink: #1a2744;
+      --muted: #6b6256;
+      --good: #2d6a4f;
+      --warn: #9a4a2a;
+      --shadow: 0 10px 30px rgba(26, 39, 68, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Frank Ruhl Libre", "Times New Roman", serif;
+      background: radial-gradient(1200px 600px at 80% -10%, #fff8e8 0%, var(--cream) 55%);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 80px; }
+    header.app {
+      background: var(--navy);
+      color: #f6edd6;
+      padding: 22px 16px 26px;
+      text-align: center;
+      border-bottom: 3px solid var(--gold);
+    }
+    header.app .bsh { letter-spacing: 0.35em; font-size: 13px; color: var(--gold-soft); margin: 0 0 8px; }
+    header.app h1 { margin: 0; font-size: clamp(28px, 6vw, 40px); font-weight: 700; }
+    header.app p { margin: 8px 0 0; font-family: Rubik, sans-serif; font-size: 14px; color: #d7c9a4; }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--gold-line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 20px;
+      margin-top: 18px;
+    }
+    .progress-hero { text-align: center; }
+
+    .pushke-stage {
+      position: relative;
+      width: 230px;
+      height: 300px;
+      margin: 4px auto 8px;
+    }
+    .coin-fly {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      width: 22px;
+      height: 22px;
+      margin-left: -11px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffe9a8, #d4a017 55%, #8a6a12);
+      box-shadow: inset 0 0 0 2px rgba(120,80,10,.35);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .coin-fly.go {
+      animation: dropCoin .7s ease-in forwards;
+    }
+    @keyframes dropCoin {
+      0% { transform: translateY(-30px) scale(1); opacity: 1; }
+      70% { transform: translateY(18px) scale(.85); opacity: 1; }
+      100% { transform: translateY(28px) scale(.4); opacity: 0; }
+    }
+
+    .pushke { position: relative; width: 200px; height: 280px; margin: 10px auto 0; }
+    .lid {
+      position: absolute;
+      top: 8px; left: 18px; right: 18px;
+      height: 36px;
+      background: linear-gradient(180deg, #3a4d73, #1a2744);
+      border: 2px solid #c9a44a;
+      border-bottom: 0;
+      border-radius: 10px 10px 2px 2px;
+      z-index: 3;
+      box-shadow: 0 4px 0 #0f1728;
+    }
+    .lid::before {
+      content: "";
+      position: absolute;
+      top: -10px; left: 10px; right: 10px;
+      height: 14px;
+      background: linear-gradient(180deg, #4a5f88, #243456);
+      border: 2px solid #c9a44a;
+      border-radius: 8px 8px 2px 2px;
+    }
+    .slot {
+      position: absolute;
+      top: 14px; left: 50%;
+      width: 72px; height: 8px;
+      margin-left: -36px;
+      background: #0b1020;
+      border-radius: 4px;
+      box-shadow: inset 0 2px 3px #000, 0 0 0 2px #c9a44a;
+      z-index: 4;
+    }
+    .body {
+      position: absolute;
+      top: 40px; left: 10px; right: 10px; bottom: 18px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.06), transparent 18%, transparent 82%, rgba(0,0,0,.18)),
+        linear-gradient(180deg, #2a3b5c, #152036 70%, #10182a);
+      border: 3px solid #c9a44a;
+      border-radius: 8px 8px 14px 14px;
+      box-shadow: 0 12px 24px rgba(26,39,68,.25), inset 0 0 0 1px rgba(255,220,140,.2);
+      overflow: hidden;
+    }
+    .window {
+      position: absolute;
+      top: 18px; left: 22px; right: 22px; bottom: 58px;
+      background: #0c1220;
+      border: 2px solid #8a7340;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: inset 0 0 16px rgba(0,0,0,.65);
+    }
+    .gold {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 0%;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,.16) 0 3px, transparent 3px 14px),
+        radial-gradient(circle at 20% 20%, #ffe7a3, transparent 40%),
+        linear-gradient(180deg, #f3d36a 0%, #d4a017 38%, #b8860b 70%, #8a6408 100%);
+      transition: height 0.8s cubic-bezier(.2,.8,.2,1);
+      box-shadow: 0 -8px 18px rgba(243, 211, 106, .35);
+    }
+    .gold::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 10px;
+      background: linear-gradient(180deg, #fff3c4, #e0b322);
+      opacity: .9;
+    }
+    .pushke.full .gold {
+      box-shadow: 0 -12px 28px rgba(243, 211, 106, .55);
+    }
+    .pushke.full .body {
+      box-shadow: 0 12px 28px rgba(184, 149, 61, .35), inset 0 0 0 1px rgba(255,220,140,.35);
+    }
+    .plaque {
+      position: absolute;
+      bottom: 14px; left: 18px; right: 18px;
+      height: 34px;
+      background: linear-gradient(180deg, #e8c86a, #b8953d);
+      border-radius: 6px;
+      color: #1a2744;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.2em;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 1px 0 #ffe9a8, 0 2px 0 #7a5d1c;
+    }
+    .base {
+      position: absolute;
+      bottom: 0; left: 4px; right: 4px;
+      height: 16px;
+      background: linear-gradient(180deg, #c9a44a, #8a6d28);
+      border-radius: 4px 4px 8px 8px;
+    }
+    .fill-caption {
+      font-family: Rubik, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .amounts {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .amounts div { padding: 10px 6px; border-radius: 12px; background: #f4eee2; }
+    .amounts b { display: block; font-family: Rubik, sans-serif; font-size: 18px; font-weight: 600; }
+    .amounts span { font-size: 13px; color: var(--muted); }
+    .pace {
+      margin-top: 14px;
+      font-family: Rubik, sans-serif;
+      font-size: 13.5px;
+      color: var(--muted);
+      background: #f8f3e8;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: right;
+    }
+    .pace strong { color: var(--navy); }
+    .pace.on-track strong { color: var(--good); }
+    .pace.behind strong { color: var(--warn); }
+
+    h2 { font-size: 22px; margin: 0 0 14px; text-align: center; }
+    label { display: block; font-size: 14px; margin: 12px 0 6px; color: var(--navy); }
+    input, select, textarea {
+      width: 100%;
+      font-family: Rubik, sans-serif;
+      font-size: 16px;
+      padding: 11px 12px;
+      border: 1px solid #d8cbb0;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+
+    button.primary, button.ghost, button.danger {
+      font-family: Rubik, sans-serif;
+      font-size: 16px;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+    button.primary { background: var(--navy); color: #f6edd6; width: 100%; margin-top: 16px; font-weight: 600; }
+    button.primary:active { transform: translateY(1px); }
+    button.ghost { background: transparent; color: var(--navy); border: 1px solid var(--gold-line); }
+    button.danger { background: transparent; color: var(--warn); padding: 6px 8px; font-size: 13px; }
+    button:disabled { opacity: .55; cursor: wait; }
+
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .toolbar button { flex: 1; min-width: 120px; }
+
+    .sync-status {
+      font-family: Rubik, sans-serif;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #f4eee2;
+      color: var(--muted);
+    }
+    .sync-status.ok { background: #e7f3ec; color: var(--good); }
+    .sync-status.err { background: #f8e8e2; color: var(--warn); }
+    .sync-status.busy { background: #eef1f6; color: var(--navy); }
+
+    .hint {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-family: Rubik, sans-serif;
+      font-size: 13.5px;
+      text-align: right;
+    }
+    .steps {
+      font-family: Rubik, sans-serif;
+      font-size: 13.5px;
+      color: #4a4338;
+      background: #f8f3e8;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 0 0 12px;
+    }
+    .steps ol { margin: 8px 0 0; padding-right: 20px; }
+    .steps li { margin: 6px 0; }
+    .en { direction: ltr; text-align: left; font-family: Rubik, sans-serif; }
+
+    .list { list-style: none; margin: 0; padding: 0; }
+    .list li {
+      border-bottom: 1px solid #efe6d4;
+      padding: 14px 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+    .list li:last-child { border-bottom: 0; }
+    .list .amt { font-family: Rubik, sans-serif; font-weight: 700; font-size: 18px; white-space: nowrap; }
+    .list .to { font-size: 17px; }
+    .list .meta { font-family: Rubik, sans-serif; font-size: 13px; color: var(--muted); }
+    .list .note { font-size: 14px; color: #4a4338; margin-top: 4px; }
+    .empty { text-align: center; color: var(--muted); padding: 12px 0 4px; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--navy); color: #f6edd6;
+      padding: 10px 16px; border-radius: 999px;
+      font-family: Rubik, sans-serif; font-size: 14px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+      z-index: 20; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-family: Rubik, sans-serif;
+      font-size: 12px;
+      margin-top: 28px;
+    }
+    dialog {
+      border: 1px solid var(--gold-line);
+      border-radius: 16px;
+      padding: 20px;
+      width: min(420px, 92vw);
+      background: var(--paper);
+    }
+    dialog::backdrop { background: rgba(26,39,68,.45); }
+    .hidden { display: none; }
+    details.settings > summary {
+      cursor: pointer;
+      font-family: Rubik, sans-serif;
+      font-weight: 600;
+      color: var(--navy);
+      list-style: none;
+    }
+    details.settings > summary::-webkit-details-marker { display: none; }
+  </style>
+</head>
+<body>
+  <header class="app">
+    <p class="bsh">ב״ה</p>
+    <h1>צדקה תשפ״ז</h1>
+    <p>מעקב תרומות ליעד של 10,000 ₪ בשנת תשפ״ז</p>
+  </header>
+
+  <div class="wrap">
+    <section class="card progress-hero">
+      <div class="pushke-stage">
+        <div class="coin-fly" id="coinFly"></div>
+        <div class="pushke" id="pushke">
+          <div class="lid"><div class="slot"></div></div>
+          <div class="body">
+            <div class="window"><div class="gold" id="goldFill"></div></div>
+            <div class="plaque">צדקה</div>
+          </div>
+          <div class="base"></div>
+        </div>
+      </div>
+      <div class="fill-caption" id="fillCaption">הקופה ריקה</div>
+      <div class="amounts">
+        <div><b id="given">0 ₪</b><span>נתרם</span></div>
+        <div><b id="left">10,000 ₪</b><span>נותר</span></div>
+        <div><b id="goal">10,000 ₪</b><span>יעד</span></div>
+      </div>
+      <div class="pace" id="pace"></div>
+      <div class="sync-status" id="syncStatus">עדיין לא מחובר לגיטהב</div>
+    </section>
+
+    <section class="card">
+      <h2>דיווח על תרומה</h2>
+      <form id="form">
+        <div class="row2">
+          <div>
+            <label for="amount">סכום בשקלים</label>
+            <input id="amount" name="amount" type="number" min="1" step="1" required inputmode="numeric" placeholder="למשל 180" />
+          </div>
+          <div>
+            <label for="date">תאריך</label>
+            <input id="date" name="date" type="date" required />
+          </div>
+        </div>
+        <label for="to">למי / לאיזה מוסד</label>
+        <input id="to" name="to" type="text" placeholder="שם הארגון, הקופה או האדם" />
+        <label for="note">הערה (לא חובה)</label>
+        <textarea id="note" name="note" placeholder="למשל: מעשר, פדיון, לזכות…"></textarea>
+        <button class="primary" type="submit" id="saveBtn">שמור תרומה לגיטהב</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>יומן התרומות</h2>
+      <ul class="list" id="list"></ul>
+      <p class="empty" id="empty">עדיין אין תרומות רשומות.</p>
+    </section>
+
+    <section class="card">
+      <details class="settings" id="ghBox">
+        <summary>חיבור לגיטהב — כדי שהנתונים לא ייאבדו</summary>
+        <div class="steps" style="margin-top:14px">
+          <div>צריך למלא פעם אחת. אחרי זה כל תרומה נשמרת לקובץ במאגר.</div>
+          <ol>
+            <li>ליצור מאגר בגיטהב ולהעלות אליו את קבצי האפליקציה, כולל
+              <span class="en">donations.json</span></li>
+            <li>בגיטהב, בתפריט הפרופיל:
+              <div class="en">Settings → Developer settings → Personal access tokens → Tokens (classic)</div>
+            </li>
+            <li>לחצן
+              <span class="en">Generate new token (classic)</span></li>
+            <li>שם לטוקן, למשל צדקה. לסמן רק
+              <span class="en">repo</span></li>
+            <li>להעתיק את הטוקן ולהדביק למטה. הטוקן נשמר בדפדפן הזה בלבד.</li>
+          </ol>
+          <div>אם המאגר ציבורי, רשימת התרומות גלויה לכל מי שנכנס למאגר. אפשר לכתוב רק ראשי תיבות בשדה «למי».</div>
+        </div>
+        <label for="ghOwner">שם המשתמש או הארגון בגיטהב</label>
+        <input id="ghOwner" class="en" placeholder="sichotmeturgamot" />
+        <label for="ghRepo">שם המאגר</label>
+        <input id="ghRepo" class="en" placeholder="tzedakah-5787" />
+        <label for="ghBranch">ענף</label>
+        <input id="ghBranch" class="en" value="main" />
+        <label for="ghToken">טוקן</label>
+        <input id="ghToken" class="en" type="password" placeholder="ghp_… או github_pat_…" autocomplete="off" />
+        <button class="primary" type="button" id="connectBtn">חבר וטען מגיטהב</button>
+        <div class="toolbar">
+          <button class="ghost" type="button" id="pullBtn">טען שוב</button>
+          <button class="ghost" type="button" id="forgetBtn">שכח טוקן במכשיר זה</button>
+        </div>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>גיבוי נוסף במכשיר</h2>
+      <p class="hint" style="text-align:center">גם אחרי החיבור לגיטהב אפשר להוריד עותק למחשב.</p>
+      <div class="toolbar">
+        <button class="ghost" type="button" id="exportBtn">הורד גיבוי</button>
+        <button class="ghost" type="button" id="importBtn">ייבוא גיבוי</button>
+        <button class="ghost" type="button" id="resetBtn">איפוס מקומי</button>
+      </div>
+      <input id="file" type="file" accept="application/json" class="hidden" />
+    </section>
+
+    <footer>
+      שנת תשפ״ז · מראש השנה עד ערב ראש השנה תשפ״ח
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <dialog id="editDialog">
+    <form id="editForm" method="dialog">
+      <h2 style="margin-top:0">עריכת תרומה</h2>
+      <input type="hidden" id="editId" />
+      <label for="editAmount">סכום</label>
+      <input id="editAmount" type="number" min="1" step="1" required />
+      <label for="editDate">תאריך</label>
+      <input id="editDate" type="date" required />
+      <label for="editTo">למי</label>
+      <input id="editTo" type="text" />
+      <label for="editNote">הערה</label>
+      <textarea id="editNote"></textarea>
+      <button class="primary" value="save" id="saveEdit">שמור שינוי</button>
+      <div class="toolbar">
+        <button class="ghost" value="cancel" type="submit">ביטול</button>
+        <button class="danger" type="button" id="deleteEdit">מחק תרומה</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const GOAL = 10000;
+    const YEAR_START = new Date(2026, 8, 12);
+    const YEAR_END = new Date(2027, 8, 30);
+    const LOCAL_KEY = "tzedakah-5787-v1";
+    const GH_KEY = "tzedakah-5787-gh";
+    const DATA_PATH = "donations.json";
+    const API = "https://api.github.com";
+
+    const $ = (id) => document.getElementById(id);
+    const state = { donations: [], sha: null };
+    let cfg = loadCfg();
+    let saving = false;
+
+    $("date").value = todayISO();
+    fillCfgForm();
+    loadLocal();
+    render();
+    if (cfg.token && cfg.owner && cfg.repo) {
+      pullFromGitHub(false);
+    } else {
+      $("ghBox").open = true;
+    }
+
+    function todayISO() {
+      const d = new Date();
+      return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
+    function loadLocal() {
+      try {
+        const raw = localStorage.getItem(LOCAL_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (Array.isArray(data.donations)) state.donations = data.donations;
+      } catch {}
+    }
+    function saveLocal() {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify({ goal: GOAL, year: "5787", donations: state.donations }));
+    }
+    function loadCfg() {
+      try { return JSON.parse(localStorage.getItem(GH_KEY) || "{}"); } catch { return {}; }
+    }
+    function saveCfg() {
+      localStorage.setItem(GH_KEY, JSON.stringify(cfg));
+    }
+    function fillCfgForm() {
+      $("ghOwner").value = cfg.owner || "";
+      $("ghRepo").value = cfg.repo || "";
+      $("ghBranch").value = cfg.branch || "main";
+      $("ghToken").value = cfg.token || "";
+    }
+    function readCfgForm() {
+      cfg = {
+        owner: $("ghOwner").value.trim(),
+        repo: $("ghRepo").value.trim(),
+        branch: $("ghBranch").value.trim() || "main",
+        token: $("ghToken").value.trim()
+      };
+    }
+    function payload() {
+      return {
+        goal: GOAL,
+        year: "5787",
+        updatedAt: new Date().toISOString(),
+        donations: state.donations
+      };
+    }
+    function fmtNIS(n) {
+      return new Intl.NumberFormat("he-IL").format(Math.round(n)) + " ₪";
+    }
+    function hebDate(iso) {
+      try {
+        const d = new Date(iso + "T12:00:00");
+        return new Intl.DateTimeFormat("he-IL-u-ca-hebrew", { day: "numeric", month: "long", year: "numeric" }).format(d);
+      } catch { return iso; }
+    }
+    function gregDate(iso) {
+      const d = new Date(iso + "T12:00:00");
+      return new Intl.DateTimeFormat("he-IL", { day: "numeric", month: "long", year: "numeric" }).format(d);
+    }
+    function total() {
+      return state.donations.reduce((s, d) => s + Number(d.amount || 0), 0);
+    }
+    function daysBetween(a, b) {
+      return Math.round((b - a) / 86400000);
+    }
+    function toast(msg) {
+      const el = $("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 2200);
+    }
+    function setSync(msg, kind) {
+      const el = $("syncStatus");
+      el.textContent = msg;
+      el.className = "sync-status" + (kind ? " " + kind : "");
+    }
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+    function enc(text) {
+      return btoa(unescape(encodeURIComponent(text)));
+    }
+    function dec(b64) {
+      return decodeURIComponent(escape(atob(b64)));
+    }
+
+    function dropCoin() {
+      const c = $("coinFly");
+      c.classList.remove("go");
+      void c.offsetWidth;
+      c.classList.add("go");
+    }
+
+    function render() {
+      const given = total();
+      const left = Math.max(GOAL - given, 0);
+      const pct = Math.min(100, (given / GOAL) * 100);
+      $("given").textContent = fmtNIS(given);
+      $("left").textContent = fmtNIS(left);
+      $("goal").textContent = fmtNIS(GOAL);
+      $("goldFill").style.height = pct + "%";
+      $("pushke").classList.toggle("full", given >= GOAL);
+      if (given <= 0) $("fillCaption").textContent = "הקופה ריקה";
+      else if (given >= GOAL) $("fillCaption").textContent = "הקופה מלאה עד גדותיה · " + Math.round(pct) + "%";
+      else $("fillCaption").textContent = "הקופה מלאה ב־" + (Number.isInteger(pct) ? pct : pct.toFixed(1)) + "%";
+
+      const now = new Date();
+      const totalDays = Math.max(daysBetween(YEAR_START, YEAR_END), 1);
+      const elapsed = Math.min(Math.max(daysBetween(YEAR_START, now), 0), totalDays);
+      const remainDays = Math.max(daysBetween(now, YEAR_END), 0);
+      const expected = GOAL * (elapsed / totalDays);
+      const weekly = remainDays > 0 ? left / (remainDays / 7) : 0;
+      const pace = $("pace");
+      let cls = "", text = "";
+      if (now < YEAR_START) {
+        text = "השנה העברית תשפ״ז מתחילה ב־<strong>א׳ תשרי</strong> (12 בספטמבר 2026). אפשר כבר לרשום תרומות.";
+      } else if (given >= GOAL) {
+        cls = "on-track";
+        text = "<strong>היעד הושלם, ברוך השם.</strong> הקופה הגיעה לראש. אפשר להמשיך לרשום תרומות.";
+      } else if (now > YEAR_END) {
+        cls = "behind";
+        text = "שנת תשפ״ז הסתיימה. נתרם " + fmtNIS(given) + " מתוך " + fmtNIS(GOAL) + ".";
+      } else {
+        const delta = given - expected;
+        if (delta >= 0) {
+          cls = "on-track";
+          text = "בקצב היעד. נתרם <strong>" + fmtNIS(delta) + "</strong> מעל הצפוי ליום זה. ";
+        } else {
+          cls = "behind";
+          text = "כדי להישאר ביעד חסרים כרגע <strong>" + fmtNIS(-delta) + "</strong>. ";
+        }
+        text += "נותרו <strong>" + remainDays + "</strong> ימים. קצב מומלץ מכאן: כ־<strong>" + fmtNIS(weekly) + "</strong> לשבוע.";
+      }
+      pace.className = "pace " + cls;
+      pace.innerHTML = text;
+
+      const list = $("list");
+      list.innerHTML = "";
+      const rows = [...state.donations].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : (b.createdAt || 0) - (a.createdAt || 0)));
+      $("empty").style.display = rows.length ? "none" : "block";
+      rows.forEach((d) => {
+        const li = document.createElement("li");
+        li.innerHTML =
+          "<div>" +
+            "<div class=\"to\">" + escapeHtml(d.to || "תרומה") + "</div>" +
+            "<div class=\"meta\">" + hebDate(d.date) + " · " + gregDate(d.date) + "</div>" +
+            (d.note ? "<div class=\"note\">" + escapeHtml(d.note) + "</div>" : "") +
+            "<div class=\"meta\"><button class=\"danger\" data-edit=\"" + d.id + "\">עריכה</button></div>" +
+          "</div>" +
+          "<div class=\"amt\">" + fmtNIS(d.amount) + "</div>";
+        list.appendChild(li);
+      });
+    }
+
+    async function gh(path, opts) {
+      opts = opts || {};
+      const res = await fetch(API + path, {
+        method: opts.method || "GET",
+        headers: {
+          "Authorization": "Bearer " + cfg.token,
+          "Accept": "application/vnd.github+json",
+          ...(opts.body ? { "Content-Type": "application/json" } : {})
+        },
+        body: opts.body ? JSON.stringify(opts.body) : undefined
+      });
+      const text = await res.text();
+      let json = null;
+      try { json = text ? JSON.parse(text) : null; } catch {}
+      if (!res.ok) {
+        const msg = (json && (json.message || json.error)) || ("שגיאה " + res.status);
+        throw new Error(msg);
+      }
+      return json;
+    }
+    function repoPath(p) {
+      return "/repos/" + encodeURIComponent(cfg.owner) + "/" + encodeURIComponent(cfg.repo) + "/" + p;
+    }
+
+    async function pullFromGitHub(showToast) {
+      if (!cfg.token || !cfg.owner || !cfg.repo) {
+        setSync("חסר חיבור לגיטהב. פתחו את «חיבור לגיטהב» למטה.", "err");
+        return false;
+      }
+      setSync("טוען מגיטהב…", "busy");
+      try {
+        const f = await gh(repoPath("contents/" + DATA_PATH + "?ref=" + encodeURIComponent(cfg.branch)));
+        state.sha = f.sha;
+        const data = JSON.parse(dec(f.content));
+        if (!Array.isArray(data.donations)) throw new Error("קובץ הנתונים אינו תקין");
+        state.donations = data.donations;
+        saveLocal();
+        render();
+        setSync("מחובר לגיטהב · עודכן לאחרונה במאגר", "ok");
+        if (showToast) toast("נטען מגיטהב");
+        return true;
+      } catch (err) {
+        if (String(err.message).indexOf("Not Found") !== -1) {
+          setSync("המאגר מחובר, אבל הקובץ donations.json עוד לא שם. שמירת תרומה תיצור אותו.", "err");
+          state.sha = null;
+          return false;
+        }
+        setSync("לא הצלחתי לטעון מגיטהב: " + err.message, "err");
+        return false;
+      }
+    }
+
+    async function pushToGitHub(message) {
+      if (!cfg.token || !cfg.owner || !cfg.repo) {
+        setSync("נשמר במכשיר בלבד. חברו גיטהב כדי לא לאבד.", "err");
+        return false;
+      }
+      setSync("שומר לגיטהב…", "busy");
+      const body = {
+        message: message || "עדכון תרומות תשפ״ז",
+        content: enc(JSON.stringify(payload(), null, 2)),
+        branch: cfg.branch
+      };
+      if (state.sha) body.sha = state.sha;
+      try {
+        const f = await gh(repoPath("contents/" + DATA_PATH), { method: "PUT", body: body });
+        state.sha = f.content && f.content.sha ? f.content.sha : state.sha;
+        setSync("נשמר בגיטהב", "ok");
+        return true;
+      } catch (err) {
+        if (String(err.message).toLowerCase().indexOf("sha") !== -1) {
+          await pullFromGitHub(false);
+          throw new Error("מישהו עדכן בינתיים. טענתי מחדש. נסו שוב.");
+        }
+        setSync("השמירה לגיטהב נכשלה: " + err.message, "err");
+        throw err;
+      }
+    }
+
+    async function persist(message, animateCoin) {
+      saveLocal();
+      render();
+      if (animateCoin) dropCoin();
+      try {
+        const ok = await pushToGitHub(message);
+        if (ok) toast("נשמר בגיטהב");
+        else toast("נשמר במכשיר בלבד");
+      } catch (err) {
+        toast("נשמר במכשיר, לא בגיטהב");
+        alert(err.message);
+      }
+    }
+
+    $("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (saving) return;
+      const amount = Number($("amount").value);
+      if (!amount || amount <= 0) return;
+      saving = true;
+      $("saveBtn").disabled = true;
+      state.donations.push({
+        id: uid(),
+        amount,
+        date: $("date").value,
+        to: $("to").value.trim(),
+        note: $("note").value.trim(),
+        createdAt: Date.now()
+      });
+      $("form").reset();
+      $("date").value = todayISO();
+      try {
+        await persist("תרומה " + amount + " ₪", true);
+      } finally {
+        saving = false;
+        $("saveBtn").disabled = false;
+      }
+    });
+
+    $("list").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-edit]");
+      if (!btn) return;
+      const d = state.donations.find((x) => x.id === btn.getAttribute("data-edit"));
+      if (!d) return;
+      $("editId").value = d.id;
+      $("editAmount").value = d.amount;
+      $("editDate").value = d.date;
+      $("editTo").value = d.to || "";
+      $("editNote").value = d.note || "";
+      $("editDialog").showModal();
+    });
+
+    $("saveEdit").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const id = $("editId").value;
+      const d = state.donations.find((x) => x.id === id);
+      if (!d) return;
+      d.amount = Number($("editAmount").value);
+      d.date = $("editDate").value;
+      d.to = $("editTo").value.trim();
+      d.note = $("editNote").value.trim();
+      $("editDialog").close();
+      await persist("עריכת תרומה");
+    });
+    $("deleteEdit").addEventListener("click", async () => {
+      const id = $("editId").value;
+      if (!confirm("למחוק את התרומה הזו?")) return;
+      state.donations = state.donations.filter((x) => x.id !== id);
+      $("editDialog").close();
+      await persist("מחיקת תרומה");
+    });
+
+    $("connectBtn").addEventListener("click", async () => {
+      readCfgForm();
+      if (!cfg.owner || !cfg.repo || !cfg.token) {
+        alert("צריך למלא משתמש, מאגר וטוקן.");
+        return;
+      }
+      saveCfg();
+      const ok = await pullFromGitHub(true);
+      if (ok) $("ghBox").open = false;
+    });
+    $("pullBtn").addEventListener("click", () => {
+      readCfgForm();
+      saveCfg();
+      pullFromGitHub(true);
+    });
+    $("forgetBtn").addEventListener("click", () => {
+      if (!confirm("להסיר את הטוקן מהמכשיר הזה? הנתונים בגיטהב יישארו.")) return;
+      cfg.token = "";
+      $("ghToken").value = "";
+      saveCfg();
+      setSync("הטוקן הוסר מהמכשיר. הנתונים נשארו בגיטהב.", "");
+    });
+
+    $("exportBtn").addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(payload(), null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "tzedakah-5787.json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast("הגיבוי ירד");
+    });
+    $("importBtn").addEventListener("click", () => $("file").click());
+    $("file").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const data = JSON.parse(await file.text());
+        if (!Array.isArray(data.donations)) throw new Error("bad");
+        if (state.donations.length && !confirm("לייבא את הגיבוי? הרשימה הנוכחית תוחלף ואז תישמר לגיטהב.")) return;
+        state.donations = data.donations.map((d) => ({
+          id: d.id || uid(),
+          amount: Number(d.amount) || 0,
+          date: d.date || todayISO(),
+          to: d.to || "",
+          note: d.note || "",
+          createdAt: d.createdAt || Date.now()
+        })).filter((d) => d.amount > 0);
+        await persist("ייבוא גיבוי");
+      } catch {
+        alert("לא הצלחתי לקרוא את קובץ הגיבוי.");
+      }
+      e.target.value = "";
+    });
+    $("resetBtn").addEventListener("click", async () => {
+      if (!confirm("למחוק את הרשימה במכשיר ואז לשמור קופה ריקה לגיטהב?")) return;
+      state.donations = [];
+      await persist("איפוס יומן תרומות");
+    });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>
