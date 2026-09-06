@@ -776,27 +776,54 @@
       }
     }
 
+    async function refreshSha() {
+      try {
+        const f = await gh(repoPath("contents/" + DATA_PATH + "?ref=" + encodeURIComponent(cfg.branch)));
+        state.sha = f.sha || null;
+        return state.sha;
+      } catch (err) {
+        if (String(err.message).indexOf("Not Found") !== -1) {
+          state.sha = null;
+          return null;
+        }
+        throw err;
+      }
+    }
+
     async function pushToGitHub(message) {
       if (!cfg.token || !cfg.owner || !cfg.repo) {
         setSync("נשמר במכשיר בלבד. חברו גיטהב כדי לא לאבד.", "err");
         return false;
       }
       setSync("שומר לגיטהב…", "busy");
-      const body = {
-        message: message || "update tzedakah 5787",
-        content: enc(JSON.stringify(payload(), null, 2)),
-        branch: cfg.branch
-      };
-      if (state.sha) body.sha = state.sha;
-      try {
+      await refreshSha();
+      const content = enc(JSON.stringify(payload(), null, 2));
+      async function putOnce() {
+        const body = {
+          message: message || "update tzedakah 5787",
+          content: content,
+          branch: cfg.branch
+        };
+        if (state.sha) body.sha = state.sha;
         const f = await gh(repoPath("contents/" + DATA_PATH), { method: "PUT", body: body });
         state.sha = f.content && f.content.sha ? f.content.sha : state.sha;
+      }
+      try {
+        await putOnce();
         setSync("נשמר בגיטהב", "ok");
         return true;
       } catch (err) {
-        if (String(err.message).toLowerCase().indexOf("sha") !== -1) {
-          await pullFromGitHub(false);
-          throw new Error("מישהו עדכן בינתיים. טענתי מחדש. נסו שוב.");
+        const msg = String(err.message || "");
+        if (/sha|does not match|409|Conflict/i.test(msg)) {
+          await refreshSha();
+          try {
+            await putOnce();
+            setSync("נשמר בגיטהב", "ok");
+            return true;
+          } catch (err2) {
+            setSync("השמירה לגיטהב נכשלה: " + err2.message, "err");
+            throw err2;
+          }
         }
         setSync("השמירה לגיטהב נכשלה: " + err.message, "err");
         throw err;
@@ -964,7 +991,7 @@
       }
     });
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js").catch(() => {});
+      navigator.serviceWorker.register("sw.js", { scope: "./" }).catch(() => {});
     }
   </script>
 </body>
