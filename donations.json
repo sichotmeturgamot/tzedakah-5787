@@ -1,6 +1,15 @@
 {
   "goal": 10000,
   "year": "5787",
-  "updatedAt": "2026-09-06T15:30:54.142Z",
-  "donations": []
+  "updatedAt": "2026-09-06T15:31:40.927Z",
+  "donations": [
+    {
+      "id": "mtpyz6qvhi4ba",
+      "amount": 10,
+      "date": "2026-09-06",
+      "to": "",
+      "note": "",
+      "createdAt": 1788708700903
+    }
+  ]
 }
