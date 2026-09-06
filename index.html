@@ -555,6 +555,9 @@
     }
     function saveCfg() {
       localStorage.setItem(GH_KEY, JSON.stringify(cfg));
+      if (navigator.storage && navigator.storage.persist) {
+        navigator.storage.persist().catch(() => {});
+      }
     }
     function fillCfgForm() {
       $("ghOwner").value = cfg.owner || "";
