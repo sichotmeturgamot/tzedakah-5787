@@ -727,13 +727,20 @@
       });
     }
 
+    function shaFromError(msg) {
+      const m = String(msg || "").match(/([0-9a-f]{40})/i);
+      return m ? m[1].toLowerCase() : null;
+    }
+
     async function gh(path, opts) {
       opts = opts || {};
       const res = await fetch(API + path, {
         method: opts.method || "GET",
+        cache: "no-store",
         headers: {
           "Authorization": "Bearer " + cleanToken(cfg.token),
           "Accept": "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
           ...(opts.body ? { "Content-Type": "application/json" } : {})
         },
         body: opts.body ? JSON.stringify(opts.body) : undefined
@@ -781,7 +788,7 @@
 
     async function refreshSha() {
       try {
-        const f = await gh(repoPath("contents/" + DATA_PATH + "?ref=" + encodeURIComponent(cfg.branch)));
+        const f = await gh(repoPath("contents/" + DATA_PATH + "?ref=" + encodeURIComponent(cfg.branch) + "&t=" + Date.now()));
         state.sha = f.sha || null;
         return state.sha;
       } catch (err) {
@@ -799,38 +806,38 @@
         return false;
       }
       setSync("שומר לגיטהב…", "busy");
-      await refreshSha();
       const content = enc(JSON.stringify(payload(), null, 2));
       async function putOnce() {
         const body = {
           message: message || "update tzedakah 5787",
           content: content,
-          branch: cfg.branch
+          branch: cfg.branch || "main"
         };
         if (state.sha) body.sha = state.sha;
         const f = await gh(repoPath("contents/" + DATA_PATH), { method: "PUT", body: body });
         state.sha = f.content && f.content.sha ? f.content.sha : state.sha;
       }
-      try {
-        await putOnce();
-        setSync("נשמר בגיטהב", "ok");
-        return true;
-      } catch (err) {
-        const msg = String(err.message || "");
-        if (/sha|does not match|409|Conflict/i.test(msg)) {
-          await refreshSha();
-          try {
-            await putOnce();
-            setSync("נשמר בגיטהב", "ok");
-            return true;
-          } catch (err2) {
-            setSync("השמירה לגיטהב נכשלה: " + err2.message, "err");
-            throw err2;
+      let lastErr = null;
+      for (let i = 0; i < 4; i++) {
+        try {
+          if (!state.sha) await refreshSha();
+          await putOnce();
+          setSync("נשמר בגיטהב", "ok");
+          return true;
+        } catch (err) {
+          lastErr = err;
+          const msg = String(err.message || "");
+          const extracted = shaFromError(msg);
+          if (/does not match|sha|409|Conflict|required/i.test(msg)) {
+            if (extracted) state.sha = extracted;
+            else await refreshSha();
+            continue;
           }
+          break;
         }
-        setSync("השמירה לגיטהב נכשלה: " + err.message, "err");
-        throw err;
       }
+      setSync("השמירה לגיטהב נכשלה: " + (lastErr && lastErr.message ? lastErr.message : "לא ידוע"), "err");
+      throw lastErr || new Error("שמירה נכשלה");
     }
 
     async function persist(message, animateCoin) {
