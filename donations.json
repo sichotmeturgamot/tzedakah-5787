@@ -1,6 +1,15 @@
 {
   "goal": 10000,
   "year": "5787",
-  "updatedAt": "2026-09-08T19:38:20.811Z",
-  "donations": []
+  "updatedAt": "2026-09-20T06:35:12.675Z",
+  "donations": [
+    {
+      "id": "mu9fz7fbmzxgs",
+      "amount": 50,
+      "date": "2026-09-20",
+      "to": "קמפיין משפחת בר",
+      "note": "צדקה",
+      "createdAt": 1789886112600
+    }
+  ]
 }
