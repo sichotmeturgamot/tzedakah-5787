@@ -1,7 +1,7 @@
 {
   "goal": 10000,
   "year": "5787",
-  "updatedAt": "2026-11-12T18:17:16.536Z",
+  "updatedAt": "2026-11-12T18:17:29.660Z",
   "donations": [
     {
       "id": "mu9fz7fbmzxgs",
@@ -146,6 +146,14 @@
       "to": "חתן",
       "note": "",
       "createdAt": 1794507436512
+    },
+    {
+      "id": "mwdvehwykdvy5",
+      "amount": 20,
+      "date": "2026-11-12",
+      "to": "קבצן בבית כנסת",
+      "note": "",
+      "createdAt": 1794507449650
     }
   ]
 }
