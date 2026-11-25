@@ -1,7 +1,7 @@
 {
   "goal": 10000,
   "year": "5787",
-  "updatedAt": "2026-11-21T18:07:41.975Z",
+  "updatedAt": "2026-11-25T07:57:18.471Z",
   "donations": [
     {
       "id": "mu9fz7fbmzxgs",
@@ -178,6 +178,14 @@
       "to": "ארגון חוננו",
       "note": "",
       "createdAt": 1795284461955
+    },
+    {
+      "id": "mwvtz08luqlej",
+      "amount": 10,
+      "date": "2026-11-25",
+      "to": "בבית כנסת",
+      "note": "",
+      "createdAt": 1795593438453
     }
   ]
 }
